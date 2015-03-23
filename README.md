@@ -1,0 +1,1 @@
+Helper functions for ES6 native promises
