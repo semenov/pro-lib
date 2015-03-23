@@ -32,4 +32,20 @@ describe('Pro Lib', function() {
 			});
 		});
 	});
+
+	describe('delay function', function() {
+		it('resolves after timeout', function() {
+			var startTime = Date.now();
+			return pro.delay(10).then(function() {
+				var endTime = Date.now();
+				assert(endTime >= startTime + 10);
+			});
+		});
+
+		it('resolves with desired value', function() {
+			return pro.delay(10, 'ok').then(function(val) {
+				assert.equal('ok', val);
+			});
+		});
+	});
 })
