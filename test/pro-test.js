@@ -3,7 +3,7 @@ var assert = require('assert');
 
 describe('Pro Lib', function() {
 
-	describe('all function', function() {
+	describe.skip('all function', function() {
 		it('resolves if all items are resolved', function() {
 			var p1 = Promise.resolve(1);
 			var p2 = Promise.resolve(2);

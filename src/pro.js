@@ -1,38 +1,39 @@
-function all(array) {
+function parallel(array) {
 	return Promise.all(array);
 }
 
 function map(array, fn) {
-	return all(array.map(fn));
+	return parallel(array.map(fn));
 }
 
 function delay(ms, value) {
 	return new Promise(function(resolve, reject) {
 		setTimeout(function() {
-			resolve(value);
+			Promise.resolve(value);
 		}, ms);
 	});
 }
 
-function resolve(val) {
-	return Promise.resolve(val);
-}
-
-function reject(val) {
-	return Promise.reject(val);
-}
-
-function race(array) {
-	return Promise.race(array);
-}
-
-function try(fn) {
+function call(fn) {
 	try {
-		return resolve(fn());
+		return Promise.resolve(fn());
 	} catch (e) {
-		return reject(e);
+		return Promise.reject(e);
 	}
 }
+
+function callAsync(fn) {
+    return new Promise(function(resolve, reject) {
+        fn(function(err, result) {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(result);
+            }
+        })
+    });
+}
+
 
 function each(array, fn) {
 	array.forEach(function(val, i) {
@@ -81,13 +82,12 @@ function series(fns) {
 */
 
 var pro = {
-	resolve: resolve,
-	reject: reject,
-	all: all,
-	parallel: all,
+	parallel: parallel,
+    series: series,
 	map: map,
 	delay: delay,
-	try: try
+    call: call,
+    callAsync: callAsync
 };
 
 module.exports = pro;
