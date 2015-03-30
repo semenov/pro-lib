@@ -15,7 +15,7 @@ function map(array, fn) {
 function delay(ms, value) {
 	return new Promise(function(resolve, reject) {
 		setTimeout(function() {
-			Promise.resolve(value);
+			resolve(value);
 		}, ms);
 	});
 }
