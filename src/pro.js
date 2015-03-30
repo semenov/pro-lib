@@ -2,6 +2,12 @@ function parallel(array) {
 	return Promise.all(array);
 }
 
+function series(arr) {
+    return arr.reduce(function(previous, current) {
+        return previous.then(current);
+    });
+}
+
 function map(array, fn) {
 	return parallel(array.map(fn));
 }
@@ -34,37 +40,15 @@ function callAsync(fn) {
     });
 }
 
-
-function each(array, fn) {
-	array.forEach(function(val, i) {
-
-	});
+function callback(promise, cb) {
+    promise.then(function(result) {
+        cb(null, result);
+    }).catch(function(err) {
+        cb(err);
+    });
 }
 
-function whilst(test, fn) {
-	if (test()) {
-		return fn().then(function() {
-			return whilst(test, fn);
-		});
-	}
-}
 
-function series(fns) {
-	var i = 0;
-	var res = [];
-	var fn;
-	return whilst(function() {
-		return i < fns.length;
-	}, function() {
-		fn = fns[i];
-		return fn().then(function(val) {
-			res[i] = val;
-			i++;
-		})
-	}).then(function() {
-		return res;
-	});
-}
 
 /*
 	try
