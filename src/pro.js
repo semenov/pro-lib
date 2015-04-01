@@ -48,6 +48,11 @@ function callback(promise, cb) {
     });
 }
 
+function spread(promises, fn) {
+    return Promise.all(promises).then(function(array) {
+        return fn.apply(this, array);
+    });
+}
 
 
 /*
@@ -69,6 +74,7 @@ var pro = {
 	parallel: parallel,
     series: series,
 	map: map,
+    spread: spread,
 	delay: delay,
     call: call,
     callAsync: callAsync
